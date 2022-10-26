@@ -90,7 +90,7 @@ private:
 	int flash_sprite_w = 1667;
 	int flash_sprite_h = 875;
 	
-	int curr_state = 0; // 0: menu, 1: lobby, 2: ingame
+	int curr_state = 2; // 0: menu, 1: ingame
 	
 	void initVariables();
 	void initWindow();
@@ -113,7 +113,6 @@ private:
 	void drawCrosshair();
 
 	void drawMenu();
-	void drawLobby();
 	void drawIngame();
 	
 
