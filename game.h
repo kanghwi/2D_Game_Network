@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <Windows.h>
+#include <string.h>
 #include <time.h>
 #include <thread>
 #include <random>
@@ -9,6 +10,7 @@
 #include "Extra_Libs\SDL2_image-2.6.2\include\SDL_image.h"
 #include "Extra_Libs\SDL2_mixer-2.6.2\include\SDL_mixer.h"
 #include "Extra_Libs\SDL2_ttf-2.0.15\include\SDL_ttf.h"
+using namespace std;
 
 #define WIDTH 1200
 #define HEIGHT 900
@@ -23,14 +25,14 @@ typedef struct TWO_Ints {
 	int y;
 }TI;
 
-class Game 
+class Game
 {
 private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	SDL_Surface* tmpSurface;
 	SDL_Event event;
-	
+
 	SDL_Texture* playerTex;
 	SDL_Texture* targetTex;
 	SDL_Texture* backTex;
@@ -42,6 +44,9 @@ private:
 	SDL_AudioSpec wavSpec;
 	Uint32 wavLength;
 	Uint8* wavBuffer;
+
+	TTF_Font* font;
+	SDL_Color white;
 
 	TF MyCharPos;
 	TF MyVelo;
@@ -57,7 +62,7 @@ private:
 
 	int iMonitorWidth;    // 모니터 가로 해상도
 	int iMonitorHeight; //새로  해상도
-	
+
 	int window_moved_x = 0;
 	int window_moved_y = 0;
 
@@ -75,33 +80,43 @@ private:
 	int flash_i;
 	int flash_angle;
 	int fired_time = 0;
-	
+
 	int deviceId = 0;
 
 	int background_size = 2000;
 	int player_size = 40;
 	int bullet_size = 100;
 	int crosshair_size = 80;
-	
+
 	float my_char_angle = 0.f;
 	float fired_angle = 0;
 	float bullet_angle = 0;
 
 	int flash_sprite_w = 1667;
 	int flash_sprite_h = 875;
-	
-	int curr_state = 0; // 0: menu, 1: lobby, 2: ingame
-	
+
+	int curr_state = 0; // 0: menu, 1: ingame
+
+	string text_in = "";
+	char text_show[100]{};
+	int text_in_height{ 100 };
+
+	char IPAdress[100];
+	char Port[100];
+	char Name[100];
+
 	void initVariables();
 	void initWindow();
 
 	void clearRenderer();
 	void updateRenderer();
 
+	SDL_Texture* loadImage(const char*);
 	void loadWavs();
+	void loadFont();
 
-	void keyEvent();
-	void mouseEvent();
+	void keyEvent_ingame();
+	void mouseEvent_ingame();
 
 	double calcAngleFromPoints(TF first_point, TF second_point);
 	int Timer(int start_time, int delay);
@@ -111,13 +126,11 @@ private:
 	void drawBullet();
 	void drawFlash();
 	void drawCrosshair();
+	void drawText(int x, int y, char[]);
 
 	void drawMenu();
-	void drawLobby();
 	void drawIngame();
-	
 
-	SDL_Texture* loadImage(const char*);
 
 public:
 	float delayTime;

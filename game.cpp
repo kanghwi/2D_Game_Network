@@ -1,13 +1,13 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include "game.h"
-
 using namespace std;
 
-void Game::initVariables() 
+void Game::initVariables()
 {
 	this->window = nullptr;
 }
-void Game::initWindow() 
+void Game::initWindow()
 {
 	//Initialize SDL
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0) {
@@ -16,8 +16,8 @@ void Game::initWindow()
 	if (TTF_Init() < 0) {
 		cout << "Could not initialize SDL!" << SDL_GetError() << endl;
 	}
-	
-	
+
+
 	this->iMonitorWidth = GetSystemMetrics(SM_CXSCREEN);    // 모니터 가로 해상도
 	this->iMonitorHeight = GetSystemMetrics(SM_CYSCREEN); //새로  해상도
 
@@ -50,6 +50,14 @@ void Game::loadWavs()
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024);
 	gunsound = Mix_LoadWAV("Sounds/gunsound.wav");
 }
+void Game::loadFont()
+{
+	font = TTF_OpenFont("arial.ttf", 16);
+	if (!font) {
+		printf("Could not open font! (%s)\n", TTF_GetError());
+	}
+	white = { 255, 255, 255, SDL_ALPHA_OPAQUE };
+}
 
 double Game::calcAngleFromPoints(TF first_point, TF second_point)
 {
@@ -71,13 +79,8 @@ int Game::Timer(int start_time, int delay)
 		return 0;
 }
 
-void Game::keyEvent()
+void Game::keyEvent_ingame()
 {
-	SDL_PollEvent(&event);
-	if (event.type == SDL_QUIT) {
-		done = 1;
-	}
-
 	//Fix keyboard status when key pressed
 	if (event.type == SDL_KEYDOWN) {
 		if (event.key.keysym.sym == SDLK_w) {
@@ -185,7 +188,7 @@ void Game::keyEvent()
 	MyCharPos.x += MyVelo.x;
 	MyCharPos.y += MyVelo.y;
 }
-void Game::mouseEvent()
+void Game::mouseEvent_ingame()
 {
 	//get mouse coordinates 
 	SDL_GetGlobalMouseState(&mouse_X, &mouse_Y);
@@ -334,6 +337,26 @@ void Game::drawCrosshair()
 	SDL_RenderCopy(renderer, targetTex, NULL, &destR);
 	//SDL_RenderCopyEx(renderer, targetTex, NULL, &destR, my_char_angle, &center, SDL_FLIP_NONE);
 }
+void Game::drawText(int x, int y, char text[])
+{
+	if (!font) {
+		printf("Could not open font! (%s)\n", TTF_GetError());
+		return;
+	}
+
+	SDL_Surface* surface = TTF_RenderText_Blended(font, text, white);
+	if (!surface) {
+		cout << "no surface" << endl;
+		return;
+	}
+	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_FreeSurface(surface);
+
+	SDL_Rect r = { x, y, surface->w, surface->h };
+	SDL_RenderCopy(renderer, texture, NULL, &r);
+	//SDL_DestroyTexture(texture);
+	//TTF_CloseFont(font);
+}
 
 void Game::clearRenderer()
 {
@@ -349,24 +372,65 @@ void Game::updateRenderer()
 
 void Game::drawMenu()
 {
-	TTF_Font* font = TTF_OpenFont("arial.ttf", 16);
-	if (font == NULL) {
-		printf("Could not open font! (%s)\n", TTF_GetError());
+	//Press enter to return
+	if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RETURN || event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_KP_ENTER) {
+		if (text_in_height == 100) {
+			text_in_height += 100;
+		}
+		else if (text_in_height == 200) {
+			text_in_height += 100;
+		}
+		else if (text_in_height == 300) {
+			text_in_height = 100;
+		}
+		text_in = "";
+	}
+	//Press button to add text
+	else if (event.type == SDL_TEXTINPUT) {
+		text_in += event.text.text;
+		if (text_in_height == 100) {
+			strcpy(IPAdress, text_in.c_str());
+		}
+		else if (text_in_height == 200) {
+			strcpy(Port, text_in.c_str());
+		}
+		else if (text_in_height == 300) {
+			strcpy(Name, text_in.c_str());
+		}
+	}
+	//Press backspace to erase
+	else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_BACKSPACE && text_in.size()) {
+		text_in.pop_back();
+		if (text_in_height == 100) {
+			strcpy(IPAdress, text_in.c_str());
+		}
+		else if (text_in_height == 200) {
+			strcpy(Port, text_in.c_str());
+		}
+		else if (text_in_height == 300) {
+			strcpy(Name, text_in.c_str());
+		}
+	}
+	//Exit event
+	else if (event.type == SDL_QUIT) {
+		done = 1;
 	}
 
-	SDL_Color color = { 255, 255, 255, SDL_ALPHA_OPAQUE };
-	SDL_Surface* surface = TTF_RenderText_Blended(font, "===Main===", color);
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
-	
-	SDL_Rect r = { 0, 0, surface->w, surface->h };
-	SDL_RenderCopy(renderer, texture, NULL, &r);
-	SDL_DestroyTexture(texture);
-	TTF_CloseFont(font);
-}
-void Game::drawLobby()
-{
-	
+	//Draw subject
+	drawText(100, 100, (char*)"IP Adress");
+	drawText(100, 200, (char*)"Port");
+	drawText(100, 300, (char*)"Name");
+
+	// Draw input rect
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+	SDL_Rect r = { 200, text_in_height, 200, 20 };
+	SDL_RenderDrawRect(renderer, &r);
+
+	drawText(200, 100, (char*)IPAdress);
+	drawText(200, 200, (char*)Port);
+	drawText(200, 300, (char*)Name);
+
+
 }
 void Game::drawIngame()
 {
@@ -377,28 +441,22 @@ void Game::drawIngame()
 	drawCrosshair();
 }
 
-
-
-void Game::update() 
+void Game::update()
 {
+	SDL_PollEvent(&event);
+	if (event.type == SDL_QUIT) {
+		done = 1;
+	}
 	clearRenderer();
-	
-	mouseEvent();
-	keyEvent();
-	
-	if (curr_state == 0) 
-	{
+
+	if (curr_state == 0) {
 		drawMenu();
 	}
-	else if (curr_state == 1)
-	{
-		drawLobby();
-	}
-	else if (curr_state == 2)
-	{
+	else if (curr_state == 1) {
+		mouseEvent_ingame();
+		keyEvent_ingame();
 		drawIngame();
 	}
-	
 
 	updateRenderer();
 }
@@ -415,6 +473,7 @@ Game::Game()
 	flashTex = this->loadImage("Images/Flash.png");
 
 	this->loadWavs();
+	this->loadFont();
 
 	//Initialize player's position to middle of window
 	MyCharPos.x = 0;
