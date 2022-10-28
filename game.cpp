@@ -364,6 +364,10 @@ void Game::drawMenu()
 	SDL_DestroyTexture(texture);
 	TTF_CloseFont(font);
 }
+void Game::drawLobby()
+{
+	
+}
 void Game::drawIngame()
 {
 	drawBackground();
@@ -372,6 +376,8 @@ void Game::drawIngame()
 	drawCharacter();
 	drawCrosshair();
 }
+
+
 
 void Game::update() 
 {
@@ -386,8 +392,13 @@ void Game::update()
 	}
 	else if (curr_state == 1)
 	{
+		drawLobby();
+	}
+	else if (curr_state == 2)
+	{
 		drawIngame();
 	}
+	
 
 	updateRenderer();
 }
