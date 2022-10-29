@@ -113,6 +113,19 @@ void Game::mouseEvent_menu()
 }
 void Game::keyEvent_ingame()
 {
+	//123으로 weapon_type 변경
+	if (event.type == SDL_KEYDOWN) {
+		if (event.key.keysym.sym == SDLK_1) {
+			weapon_type = 0;
+		}
+		else if (event.key.keysym.sym == SDLK_2) {
+			weapon_type = 1;
+		}
+		else if (event.key.keysym.sym == SDLK_3) {
+			weapon_type = 2;
+		}
+	}
+	
 	//Fix keyboard status when key pressed
 	if (event.type == SDL_KEYDOWN) {
 		if (event.key.keysym.sym == SDLK_w) {
@@ -261,21 +274,26 @@ void Game::drawBackground()
 {
 	destR.w = background_size;
 	destR.h = background_size;
-	destR.x = WIDTH / 2 - background_size / 2 - MyCharPos.x;
-	destR.y = HEIGHT / 2 - background_size / 2 - MyCharPos.y;
+	destR.x = WIDTH / 2 - background_size / 2;
+	destR.y = HEIGHT / 2 - background_size / 2;
 
-	//cout << MyCharPos.x << " " << MyCharPos.y << endl;
+	cout << MyCharPos.x << " " << MyCharPos.y << endl;
 
 	//Draw Background
 	SDL_RenderCopy(renderer, backTex, NULL, &destR);
 }
+void Game::drawGround()
+{
+	destR.w = background_size;
+	destR.h = background_size;
+	destR.x = WIDTH / 2 - background_size / 2 - MyCharPos.x;
+	destR.y = HEIGHT / 2 - background_size / 2 - MyCharPos.y;
+
+	//Draw Background
+	SDL_RenderCopy(renderer, groundTex, NULL, &destR);
+}
 void Game::drawCharacter()
 {
-	//// Draw rect
-	//SDL_Rect r = { MyChar_X, MyChar_Y, rect_size, rect_size };
-	//SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-	//SDL_RenderDrawRect(renderer, &r);
-
 	destR.w = player_size;
 	destR.h = player_size;
 	destR.x = WIDTH / 2 - player_size / 2; //MyCharPos.x - player_size / 2;
@@ -284,7 +302,27 @@ void Game::drawCharacter()
 	center.x = player_size / 2;
 	center.y = player_size / 2;
 
-	SDL_RenderCopyEx(renderer, playerTex, NULL, &destR, my_char_angle + 90, &center, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(renderer, black_playerTex, NULL, &destR, my_char_angle + 90, &center, SDL_FLIP_NONE);
+}
+void Game::drawHealthbar()
+{
+	destR.w = (float)my_health / 2.5f;
+	destR.h = 10;
+	destR.x = WIDTH / 2 - 20;
+	destR.y = HEIGHT / 2 - 35;
+	if (my_health > 50) {
+		SDL_RenderCopy(renderer, greenTex, NULL, &destR);
+	}
+	else if (my_health > 25) {
+		SDL_RenderCopy(renderer, yellowTex, NULL, &destR);
+	}
+	else {
+		SDL_RenderCopy(renderer, redTex, NULL, &destR);
+	}
+	
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+	SDL_Rect r = { WIDTH / 2 - 20, HEIGHT / 2 - 35, 40, 10 };
+	SDL_RenderDrawRect(renderer, &r);
 }
 void Game::drawBullet()
 {
@@ -357,6 +395,7 @@ void Game::drawFlash()
 		flash_angle = my_char_angle;
 	}
 }
+
 void Game::drawCrosshair()
 {
 	//마우스 좌표 먹이기
@@ -391,6 +430,21 @@ void Game::drawText(int x, int y, char text[])
 }
 void Game::drawWeaponList()
 {
+	destR.w = 100;
+	destR.h = 100;
+	if (weapon_type == 0) {
+		destR.x = WIDTH / 2 - 151;
+	}
+	else if (weapon_type == 1) {
+		destR.x = WIDTH / 2 - 50;
+	}
+	else if (weapon_type == 2) {
+		destR.x = WIDTH / 2 + 51;
+	}
+	destR.y = HEIGHT - 100;
+	SDL_RenderCopy(renderer, whiteTex, NULL, &destR);
+	
+	
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 	SDL_Rect r = { WIDTH / 2 - 151, HEIGHT - 100, 100, 100 };
 	SDL_RenderDrawRect(renderer, &r);
@@ -399,7 +453,18 @@ void Game::drawWeaponList()
 	r = { WIDTH / 2 + 51, HEIGHT - 100, 100, 100 };
 	SDL_RenderDrawRect(renderer, &r);
 
+	destR.x = WIDTH / 2 - 151;
+	destR.y = HEIGHT - 100;
+	SDL_RenderCopy(renderer, pistolTex, NULL, &destR);
+	destR.x = WIDTH / 2 - 50;
+	destR.y = HEIGHT - 100;
+	SDL_RenderCopy(renderer, rifleTex, NULL, &destR);
+	destR.x = WIDTH / 2 + 51;
+	destR.y = HEIGHT - 100;
+	SDL_RenderCopy(renderer, sniperTex, NULL, &destR);
+
 	
+
 }
 
 void Game::drawMenu()
@@ -484,9 +549,11 @@ void Game::drawMenu()
 void Game::drawIngame()
 {
 	drawBackground();
+	drawGround();
 	drawBullet();
 	drawFlash();
 	drawCharacter();
+	drawHealthbar();
 	drawCrosshair();
 	drawWeaponList();
 }
@@ -516,11 +583,22 @@ Game::Game()
 	this->initVariables();
 	this->initWindow();
 
-	playerTex = this->loadImage("Images/Player.png");
+	black_playerTex = this->loadImage("Images/Player_Black.png");
+	red_playerTex = this->loadImage("Images/Player_Red.png");
+	blue_playerTex = this->loadImage("Images/Player_Blue.png");
 	targetTex = this->loadImage("Images/Target.png");
-	backTex = this->loadImage("Images/Background.jpg");
+	backTex = this->loadImage("Images/Space.jpg");
+	groundTex = this->loadImage("Images/Ground.png");
 	bulletTex = this->loadImage("Images/Bullet.png");
 	flashTex = this->loadImage("Images/Flash.png");
+	pistolTex = this->loadImage("Images/Pistol.png");
+	rifleTex = this->loadImage("Images/Rifle.png");
+	sniperTex = this->loadImage("Images/Sniper.png");
+	whiteTex = this->loadImage("Images/White.png");
+	greenTex = this->loadImage("Images/Green.png");
+	yellowTex = this->loadImage("Images/Yellow.png");
+	redTex = this->loadImage("Images/Red.png");
+
 
 	this->loadWavs();
 	this->loadFont();

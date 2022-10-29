@@ -33,12 +33,23 @@ private:
 	SDL_Surface* tmpSurface;
 	SDL_Event event;
 
-	SDL_Texture* playerTex;
+	SDL_Texture* black_playerTex;
+	SDL_Texture* red_playerTex;
+	SDL_Texture* blue_playerTex;
+
 	SDL_Texture* targetTex;
 	SDL_Texture* backTex;
+	SDL_Texture* groundTex;
 	SDL_Texture* bulletTex;
 	SDL_Texture* flashTex;
-
+	SDL_Texture* pistolTex;
+	SDL_Texture* rifleTex;
+	SDL_Texture* sniperTex;
+	SDL_Texture* whiteTex;
+	SDL_Texture* greenTex;
+	SDL_Texture* yellowTex;
+	SDL_Texture* redTex;
+	
 	Mix_Chunk* gunsound;
 
 	SDL_AudioSpec wavSpec;
@@ -95,7 +106,12 @@ private:
 	int flash_sprite_w = 1667;
 	int flash_sprite_h = 875;
 
-	int curr_state = 1; // 0: menu, 1: ingame
+	int curr_state = 0; // 0: menu, 1: ingame4
+	int weapon_type = 0; // 0: pistol, 1: rifle, 2: sniper
+
+	int my_health = 100;
+	int enemy1_health = 100;
+	int enemy2_health = 100;
 	
 	//메뉴화면 변수
 	string text_in = "";
@@ -127,7 +143,9 @@ private:
 	int Timer(int start_time, int delay);
 
 	void drawBackground();
+	void drawGround();
 	void drawCharacter();
+	void drawHealthbar();
 	void drawBullet();
 	void drawFlash();
 	void drawCrosshair();

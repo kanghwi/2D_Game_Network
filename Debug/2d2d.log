@@ -2,21 +2,25 @@
 C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(80,31): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(106,18): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(107,18): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(204,37): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(208,38): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(212,37): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(216,38): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(228,18): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(229,18): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(237,37): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(264,44): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(265,45): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(291,46): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(303,27): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(304,27): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(348,42): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(349,43): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(357,17): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(365,26): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(366,26): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(217,37): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(221,38): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(225,37): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(229,38): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(241,18): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(242,18): warning C4244: '=': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(250,37): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(289,44): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(290,45): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(309,29): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(329,46): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(341,27): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(342,27): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(386,42): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(387,43): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(395,17): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(404,26): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\YTP\source\repos\2D_Game_Network\game.cpp(405,26): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  main.cpp
+C:\Users\YTP\source\repos\2D_Game_Network\main.cpp(21,20): warning C4244: '인수': 'float'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
   2d2d.vcxproj -> C:\Users\YTP\source\repos\2D_Game_Network\Debug\2d2d.exe
