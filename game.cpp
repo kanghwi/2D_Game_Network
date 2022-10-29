@@ -213,20 +213,20 @@ void Game::keyEvent_ingame()
 	}
 
 	//Keep Character Visible in Window
-	if (MyCharPos.x > background_size / 2 - player_size / 2) {
-		MyCharPos.x = background_size / 2 - player_size / 2;
+	if (MyCharPos.x > ground_size / 2 - player_size / 2) {
+		MyCharPos.x = ground_size / 2 - player_size / 2;
 		MyVelo.x = 0;
 	}
-	else if (MyCharPos.x < -background_size / 2 + player_size / 2) {
-		MyCharPos.x = -background_size / 2 + player_size / 2;
+	else if (MyCharPos.x < -ground_size / 2 + player_size / 2) {
+		MyCharPos.x = -ground_size / 2 + player_size / 2;
 		MyVelo.x = 0;
 	}
-	if (MyCharPos.y > background_size / 2 - player_size / 2) {
-		MyCharPos.y = background_size / 2 - player_size / 2;
+	if (MyCharPos.y > ground_size / 2 - player_size / 2) {
+		MyCharPos.y = ground_size / 2 - player_size / 2;
 		MyVelo.y = 0;
 	}
-	else if (MyCharPos.y < -background_size / 2 + player_size / 2) {
-		MyCharPos.y = -background_size / 2 + player_size / 2;
+	else if (MyCharPos.y < -ground_size / 2 + player_size / 2) {
+		MyCharPos.y = -ground_size / 2 + player_size / 2;
 		MyVelo.y = 0;
 	}
 	//add velocity to XY coordinates
@@ -272,9 +272,9 @@ void Game::mouseEvent_ingame()
 
 void Game::drawBackground()
 {
-	destR.w = background_size;
+	destR.w = background_size + 1000;
 	destR.h = background_size;
-	destR.x = WIDTH / 2 - background_size / 2;
+	destR.x = WIDTH / 2 - (background_size + 1000) / 2;
 	destR.y = HEIGHT / 2 - background_size / 2;
 
 	cout << MyCharPos.x << " " << MyCharPos.y << endl;
@@ -284,10 +284,10 @@ void Game::drawBackground()
 }
 void Game::drawGround()
 {
-	destR.w = background_size;
-	destR.h = background_size;
-	destR.x = WIDTH / 2 - background_size / 2 - MyCharPos.x;
-	destR.y = HEIGHT / 2 - background_size / 2 - MyCharPos.y;
+	destR.w = ground_size;
+	destR.h = ground_size;
+	destR.x = WIDTH / 2 - ground_size / 2 - MyCharPos.x;
+	destR.y = HEIGHT / 2 - ground_size / 2 - MyCharPos.y;
 
 	//Draw Background
 	SDL_RenderCopy(renderer, groundTex, NULL, &destR);
@@ -469,6 +469,8 @@ void Game::drawWeaponList()
 
 void Game::drawMenu()
 {
+	drawBackground();
+
 	if (!connect_server) {
 		//Press enter to return
 		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_TAB) {
@@ -586,20 +588,26 @@ Game::Game()
 	black_playerTex = this->loadImage("Images/Player_Black.png");
 	red_playerTex = this->loadImage("Images/Player_Red.png");
 	blue_playerTex = this->loadImage("Images/Player_Blue.png");
+	
 	targetTex = this->loadImage("Images/Target.png");
 	backTex = this->loadImage("Images/Space.jpg");
 	groundTex = this->loadImage("Images/Ground.png");
 	bulletTex = this->loadImage("Images/Bullet.png");
 	flashTex = this->loadImage("Images/Flash.png");
+	
 	pistolTex = this->loadImage("Images/Pistol.png");
 	rifleTex = this->loadImage("Images/Rifle.png");
 	sniperTex = this->loadImage("Images/Sniper.png");
+	
 	whiteTex = this->loadImage("Images/White.png");
 	greenTex = this->loadImage("Images/Green.png");
 	yellowTex = this->loadImage("Images/Yellow.png");
 	redTex = this->loadImage("Images/Red.png");
-
-
+	
+	pistol_ammoTex = this->loadImage("Images/Pistol_ammo.png");
+	rifle_ammoTex = this->loadImage("Images/Rifle_ammo.png");
+	sniper_ammoTex = this->loadImage("Images/Sniper_ammo.png");
+	
 	this->loadWavs();
 	this->loadFont();
 

@@ -42,13 +42,21 @@ private:
 	SDL_Texture* groundTex;
 	SDL_Texture* bulletTex;
 	SDL_Texture* flashTex;
+	
 	SDL_Texture* pistolTex;
 	SDL_Texture* rifleTex;
 	SDL_Texture* sniperTex;
+	
 	SDL_Texture* whiteTex;
 	SDL_Texture* greenTex;
 	SDL_Texture* yellowTex;
 	SDL_Texture* redTex;
+	
+
+	SDL_Texture* pistol_ammoTex;
+	SDL_Texture* rifle_ammoTex;
+	SDL_Texture* sniper_ammoTex;
+	
 	
 	Mix_Chunk* gunsound;
 
@@ -94,7 +102,8 @@ private:
 
 	int deviceId = 0;
 
-	int background_size = 2000;
+	int background_size = 1800;
+	int ground_size = 2000;
 	int player_size = 40;
 	int bullet_size = 100;
 	int crosshair_size = 80;
