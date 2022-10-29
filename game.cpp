@@ -3,6 +3,18 @@
 #include "game.h"
 using namespace std;
 
+void Game::clearRenderer()
+{
+	// Clear renderer
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+	SDL_RenderClear(renderer);
+}
+void Game::updateRenderer()
+{
+	// Update screen
+	SDL_RenderPresent(renderer);
+}
+
 void Game::initVariables()
 {
 	this->window = nullptr;
@@ -79,6 +91,26 @@ int Game::Timer(int start_time, int delay)
 		return 0;
 }
 
+void Game::collide_check(float a, float b, float c, float d, float e, float f, float g, float h)//x,y x,y a,b a,b
+{
+	if (a < g && c > e && b < h && d > f) {
+		cout << "collide" << endl;
+	}
+}
+
+void Game::mouseEvent_menu()
+{
+	//get mouse coordinates 
+	SDL_GetGlobalMouseState(&mouse_X, &mouse_Y);
+
+	mouse_point.x = mouse_X;
+	mouse_point.y = mouse_Y;
+
+	//모니터 해상도 좌표를 게임 게임 창 좌표 기준으로 변환시킴
+	SDL_GetWindowPosition(window, &window_moved_x, &window_moved_y);
+	mouse_point.x -= window_moved_x;
+	mouse_point.y -= window_moved_y;
+}
 void Game::keyEvent_ingame()
 {
 	//Fix keyboard status when key pressed
@@ -346,7 +378,7 @@ void Game::drawText(int x, int y, char text[])
 
 	SDL_Surface* surface = TTF_RenderText_Blended(font, text, white);
 	if (!surface) {
-		cout << "no surface" << endl;
+		//cout << "no surface" << endl;
 		return;
 	}
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -357,80 +389,97 @@ void Game::drawText(int x, int y, char text[])
 	//SDL_DestroyTexture(texture);
 	//TTF_CloseFont(font);
 }
-
-void Game::clearRenderer()
+void Game::drawWeaponList()
 {
-	// Clear renderer
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-	SDL_RenderClear(renderer);
-}
-void Game::updateRenderer()
-{
-	// Update screen
-	SDL_RenderPresent(renderer);
+	SDL_Rect r = { WIDTH / 2 - 151, HEIGHT - 100, 100, 100 };
+	SDL_RenderDrawRect(renderer, &r);
+	r = { WIDTH / 2 - 50, HEIGHT - 100, 100, 100 }; 
+	SDL_RenderDrawRect(renderer, &r);
+	r = { WIDTH / 2 + 51, HEIGHT - 100, 100, 100 };
+	SDL_RenderDrawRect(renderer, &r);
+
+	
 }
 
 void Game::drawMenu()
 {
-	//Press enter to return
-	if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RETURN || event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_KP_ENTER) {
-		if (text_in_height == 100) {
-			text_in_height += 100;
+	if (!connect_server) {
+		//Press enter to return
+		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_TAB) {
+			if (text_in_height == 100) {
+				text_in_height += 100;
+			}
+			else if (text_in_height == 200) {
+				text_in_height += 100;
+			}
+			else if (text_in_height == 300) {
+				text_in_height = 100;
+			}
+			text_in = "";
 		}
-		else if (text_in_height == 200) {
-			text_in_height += 100;
+		//Press button to add text
+		else if (event.type == SDL_TEXTINPUT) {
+			text_in += event.text.text;
+			if (text_in_height == 100) {
+				strcpy(IPAdress, text_in.c_str());
+			}
+			else if (text_in_height == 200) {
+				strcpy(Port, text_in.c_str());
+			}
+			else if (text_in_height == 300) {
+				strcpy(Name, text_in.c_str());
+			}
 		}
-		else if (text_in_height == 300) {
-			text_in_height = 100;
+		//Press backspace to erase
+		else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_BACKSPACE && text_in.size()) {
+			text_in.pop_back();
+			if (text_in_height == 100) {
+				strcpy(IPAdress, text_in.c_str());
+			}
+			else if (text_in_height == 200) {
+				strcpy(Port, text_in.c_str());
+			}
+			else if (text_in_height == 300) {
+				strcpy(Name, text_in.c_str());
+			}
 		}
-		text_in = "";
+		else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RETURN) {
+			//여기 connect함수 놔야함 
+			connect_server = true;
+			cout << "서버와 연결됨" << endl;
+		}
+		//Exit event
+		else if (event.type == SDL_QUIT) {
+			done = 1;
+		}
+
+		//Draw subject
+		drawText(100, 100, (char*)"IP Adress");
+		drawText(100, 200, (char*)"Port");
+		drawText(100, 300, (char*)"Name");
+
+		// Draw input rect
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+		SDL_Rect r = { 200, text_in_height, 200, 20 };
+		SDL_RenderDrawRect(renderer, &r);
+
+		drawText(200, 100, (char*)IPAdress);
+		drawText(200, 200, (char*)Port);
+		drawText(200, 300, (char*)Name);
+		
+		drawText(170, 400, (char*)"Enter to connect");
 	}
-	//Press button to add text
-	else if (event.type == SDL_TEXTINPUT) {
-		text_in += event.text.text;
-		if (text_in_height == 100) {
-			strcpy(IPAdress, text_in.c_str());
-		}
-		else if (text_in_height == 200) {
-			strcpy(Port, text_in.c_str());
-		}
-		else if (text_in_height == 300) {
-			strcpy(Name, text_in.c_str());
+	else {
+		drawText(200, 100, (char*)Name);
+		drawText(200, 200, (char*)"Press enter to find match");
+
+		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RETURN) {
+			//서버에 findmatch 보내야함
+			curr_state = 1;
+			cout << "매치를 찾음" << endl;
 		}
 	}
-	//Press backspace to erase
-	else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_BACKSPACE && text_in.size()) {
-		text_in.pop_back();
-		if (text_in_height == 100) {
-			strcpy(IPAdress, text_in.c_str());
-		}
-		else if (text_in_height == 200) {
-			strcpy(Port, text_in.c_str());
-		}
-		else if (text_in_height == 300) {
-			strcpy(Name, text_in.c_str());
-		}
-	}
-	//Exit event
-	else if (event.type == SDL_QUIT) {
-		done = 1;
-	}
-
-	//Draw subject
-	drawText(100, 100, (char*)"IP Adress");
-	drawText(100, 200, (char*)"Port");
-	drawText(100, 300, (char*)"Name");
-
-	// Draw input rect
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-	SDL_Rect r = { 200, text_in_height, 200, 20 };
-	SDL_RenderDrawRect(renderer, &r);
-
-	drawText(200, 100, (char*)IPAdress);
-	drawText(200, 200, (char*)Port);
-	drawText(200, 300, (char*)Name);
-
-
 }
 void Game::drawIngame()
 {
@@ -439,6 +488,7 @@ void Game::drawIngame()
 	drawFlash();
 	drawCharacter();
 	drawCrosshair();
+	drawWeaponList();
 }
 
 void Game::update()
@@ -482,7 +532,6 @@ Game::Game()
 	middle_pos.x = WIDTH / 2;
 	middle_pos.y = HEIGHT / 2;
 }
-
 Game::~Game()
 {
 	Mix_FreeChunk(gunsound);

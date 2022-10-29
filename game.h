@@ -95,8 +95,9 @@ private:
 	int flash_sprite_w = 1667;
 	int flash_sprite_h = 875;
 
-	int curr_state = 0; // 0: menu, 1: ingame
-
+	int curr_state = 1; // 0: menu, 1: ingame
+	
+	//메뉴화면 변수
 	string text_in = "";
 	char text_show[100]{};
 	int text_in_height{ 100 };
@@ -105,6 +106,10 @@ private:
 	char Port[100];
 	char Name[100];
 
+	bool game_start = false;
+	bool connect_server = false;
+	
+	//함수
 	void initVariables();
 	void initWindow();
 
@@ -127,17 +132,19 @@ private:
 	void drawFlash();
 	void drawCrosshair();
 	void drawText(int x, int y, char[]);
+	void drawWeaponList();
 
 	void drawMenu();
 	void drawIngame();
 
-
+	void mouseEvent_menu();
+	void collide_check(float a, float b, float c, float d, float e, float f, float g, float h);
 public:
 	float delayTime;
 	int done = 0;
 
 	Game();
-	virtual ~Game();
+	~Game();
 
 	void update();
 };
