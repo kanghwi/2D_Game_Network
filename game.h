@@ -2,6 +2,7 @@
 #include <iostream>
 #include <Windows.h>
 #include <string.h>
+#include <string>
 #include <time.h>
 #include <thread>
 #include <random>
@@ -51,6 +52,8 @@ private:
 	SDL_Texture* greenTex;
 	SDL_Texture* yellowTex;
 	SDL_Texture* redTex;
+
+	SDL_Texture* infinity_Tex;
 	
 
 	SDL_Texture* pistol_ammoTex;
@@ -65,7 +68,6 @@ private:
 	Uint8* wavBuffer;
 
 	TTF_Font* font;
-	SDL_Color white;
 
 	TF MyCharPos;
 	TF MyVelo;
@@ -115,12 +117,15 @@ private:
 	int flash_sprite_w = 1667;
 	int flash_sprite_h = 875;
 
-	int curr_state = 0; // 0: menu, 1: ingame4
+	int curr_state = 1; // 0: menu, 1: ingame
 	int weapon_type = 0; // 0: pistol, 1: rifle, 2: sniper
 
 	int my_health = 100;
 	int enemy1_health = 100;
 	int enemy2_health = 100;
+
+	int rifle_ammo = 30;
+	int sniper_ammo = 5;
 	
 	//메뉴화면 변수
 	string text_in = "";
@@ -158,7 +163,7 @@ private:
 	void drawBullet();
 	void drawFlash();
 	void drawCrosshair();
-	void drawText(int x, int y, char[]);
+	void drawText(int x, int y, char[], SDL_Color);
 	void drawWeaponList();
 
 	void drawMenu();

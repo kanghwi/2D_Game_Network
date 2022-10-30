@@ -68,7 +68,6 @@ void Game::loadFont()
 	if (!font) {
 		printf("Could not open font! (%s)\n", TTF_GetError());
 	}
-	white = { 255, 255, 255, SDL_ALPHA_OPAQUE };
 }
 
 double Game::calcAngleFromPoints(TF first_point, TF second_point)
@@ -408,14 +407,13 @@ void Game::drawCrosshair()
 	SDL_RenderCopy(renderer, targetTex, NULL, &destR);
 	//SDL_RenderCopyEx(renderer, targetTex, NULL, &destR, my_char_angle, &center, SDL_FLIP_NONE);
 }
-void Game::drawText(int x, int y, char text[])
+void Game::drawText(int x, int y, char text[], SDL_Color color)
 {
 	if (!font) {
 		printf("Could not open font! (%s)\n", TTF_GetError());
 		return;
 	}
-
-	SDL_Surface* surface = TTF_RenderText_Blended(font, text, white);
+	SDL_Surface* surface = TTF_RenderText_Blended(font, text, color);
 	if (!surface) {
 		//cout << "no surface" << endl;
 		return;
@@ -462,13 +460,27 @@ void Game::drawWeaponList()
 	destR.x = WIDTH / 2 + 51;
 	destR.y = HEIGHT - 100;
 	SDL_RenderCopy(renderer, sniperTex, NULL, &destR);
-
 	
+	
+	destR.w = 20;
+	destR.h = 20;
+	destR.x = WIDTH / 2 - 140;
+	destR.y = HEIGHT - 100;
+	SDL_RenderCopy(renderer, infinity_Tex, NULL, &destR);
+	
+	SDL_Color color = { 0, 0, 0 };
+	string tmp = to_string(rifle_ammo);
+	char const* num_char = tmp.c_str();
+	drawText(WIDTH / 2 - 40, HEIGHT - 100, (char*)num_char, color);
+	tmp = to_string(sniper_ammo);
+	num_char = tmp.c_str();
+	drawText(WIDTH / 2 + 60, HEIGHT - 100, (char*)num_char, color);
 
 }
 
 void Game::drawMenu()
 {
+	SDL_Color color = { 255, 255, 255 };
 	drawBackground();
 
 	if (!connect_server) {
@@ -522,24 +534,24 @@ void Game::drawMenu()
 		}
 
 		//Draw subject
-		drawText(100, 100, (char*)"IP Adress");
-		drawText(100, 200, (char*)"Port");
-		drawText(100, 300, (char*)"Name");
+		drawText(100, 100, (char*)"IP Adress", color);
+		drawText(100, 200, (char*)"Port", color);
+		drawText(100, 300, (char*)"Name", color);
 
 		// Draw input rect
 		SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
 		SDL_Rect r = { 200, text_in_height, 200, 20 };
 		SDL_RenderDrawRect(renderer, &r);
 
-		drawText(200, 100, (char*)IPAdress);
-		drawText(200, 200, (char*)Port);
-		drawText(200, 300, (char*)Name);
+		drawText(200, 100, (char*)IPAdress, color);
+		drawText(200, 200, (char*)Port, color);
+		drawText(200, 300, (char*)Name, color);
 		
-		drawText(170, 400, (char*)"Enter to connect");
+		drawText(170, 400, (char*)"Enter to connect", color);
 	}
 	else {
-		drawText(200, 100, (char*)Name);
-		drawText(200, 200, (char*)"Press enter to find match");
+		drawText(200, 100, (char*)Name, color);
+		drawText(200, 200, (char*)"Press enter to find match", color);
 
 		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RETURN) {
 			//서버에 findmatch 보내야함
@@ -607,6 +619,9 @@ Game::Game()
 	pistol_ammoTex = this->loadImage("Images/Pistol_ammo.png");
 	rifle_ammoTex = this->loadImage("Images/Rifle_ammo.png");
 	sniper_ammoTex = this->loadImage("Images/Sniper_ammo.png");
+
+	infinity_Tex = this->loadImage("Images/Infinity.png");
+	
 	
 	this->loadWavs();
 	this->loadFont();
