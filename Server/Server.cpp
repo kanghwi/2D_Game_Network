@@ -1,19 +1,20 @@
+#include "Common.h"
 #include <iostream>
 #include <fstream>
 #include<vector>
 #include<mutex>
 #include<string>
-#include "Common.h"
 
 #define SERVERPORT 9000
 #define BUFSIZE    4096
+
 using namespace std;
+
 int len = 0;
 char buffer[BUFSIZE]; // 가변 길이 데이터
 std::mutex mylock;
 //들어온 순서
 int hostnum;
-
 
 DWORD WINAPI process_client(LPVOID arg)
 {
@@ -24,7 +25,6 @@ DWORD WINAPI process_client(LPVOID arg)
 	int addrlen;
 	char buf[BUFSIZE + 1];
 
-
 	// 클라이언트 정보 얻기
 	addrlen = sizeof(clientaddr);
 	getpeername(client_sock, (struct sockaddr*)&clientaddr, &addrlen);
@@ -32,16 +32,18 @@ DWORD WINAPI process_client(LPVOID arg)
 	printf("[TCP 서버] 클라이언트 접속: IP 주소=%s, 포트 번호=%d\n",
 		addr, ntohs(clientaddr.sin_port));
 
-	//while (1) {
-	//	retval = send(client_sock, (char*)&sun_angle, (int)sizeof(SunAngle), 0);
-	//	sun_angle.y += 0.2f;
-	//	if (sun_angle.y >= 180.f)
-	//		sun_angle.y = -180.f;
-	//	if (retval == SOCKET_ERROR) {
-	//		err_display("send()");
-	//		break;
-	//	}
-	//}
+	while (1) {
+
+		/*retval = send(client_sock, (char*)&sun_angle, (int)sizeof(SunAngle), 0);
+		sun_angle.y += 0.2f;
+		if (sun_angle.y >= 180.f)
+			sun_angle.y = -180.f;
+		if (retval == SOCKET_ERROR) {
+			err_display("send()");
+			break;
+		}*/
+
+	}
 
 	printf("[TCP 서버] 클라이언트 종료: IP 주소=%s, 포트 번호=%d\n",
 		addr, ntohs(clientaddr.sin_port));
@@ -50,6 +52,8 @@ DWORD WINAPI process_client(LPVOID arg)
 
 	return 0;
 }
+
+
 
 int main(int argc, char* argv[])
 {
@@ -81,6 +85,7 @@ int main(int argc, char* argv[])
 	struct sockaddr_in clientaddr;
 	int addrlen;
 	HANDLE client_thread;
+	
 	while (1) {
 		// accept()
 		addrlen = sizeof(clientaddr);
@@ -96,12 +101,14 @@ int main(int argc, char* argv[])
 
 		cout << addr << endl;
 
+
 		// 스레드 생성
 		client_thread = CreateThread(NULL, 0, process_client,
 			(LPVOID)client_sock, 0, NULL);
 		//소켓 닫기
 		if (client_thread == NULL) { closesocket(client_sock); }
 		else { CloseHandle(client_thread); }
+
 	}
 
 	// 소켓 닫기
