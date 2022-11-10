@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-#include <Windows.h>
 #include <string.h>
 #include <string>
 #include <time.h>
@@ -11,6 +10,8 @@
 #include "Extra_Libs\SDL2_image-2.6.2\include\SDL_image.h"
 #include "Extra_Libs\SDL2_mixer-2.6.2\include\SDL_mixer.h"
 #include "Extra_Libs\SDL2_ttf-2.0.15\include\SDL_ttf.h"
+
+#pragma comment(lib, "ws2_32") // ws2_32.lib 링크
 using namespace std;
 
 #define WIDTH 1200
@@ -117,7 +118,6 @@ private:
 	int flash_sprite_w = 1667;
 	int flash_sprite_h = 875;
 
-	int curr_state = 0; // 0: menu, 1: ingame
 	int weapon_type = 0; // 0: pistol, 1: rifle, 2: sniper
 
 	int my_health = 100;
@@ -132,12 +132,10 @@ private:
 	char text_show[100]{};
 	int text_in_height{ 100 };
 
-	char IPAdress[100];
-	char Port[100];
-	char Name[100];
+
 
 	bool game_start = false;
-	bool connect_server = false;
+	
 	
 	//함수
 	void initVariables();
@@ -174,7 +172,15 @@ private:
 public:
 	float delayTime;
 	int done = 0;
-
+	int curr_state = 0; // 0: menu, 1: ingame
+	bool find_match = false;
+	bool connect_server = false; //서버와 연결했다는 것을 game.cpp에서 인지하게끔. main에서 false해버리면 game.cpp에서 진행 안됨
+	bool server_connected = false; //서버와 연결하면 connect다시 안하게끔
+	
+	char IPAdress[100];
+	char Port[100];
+	char Name[100];
+	
 	Game();
 	~Game();
 

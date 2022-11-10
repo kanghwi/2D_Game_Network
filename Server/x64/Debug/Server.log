@@ -1,5 +1,4 @@
 ﻿  Server.cpp
-D:\Projects\2D_Game_Network\Server\Server.cpp(26,7): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
-D:\Projects\2D_Game_Network\Server\Server.cpp(21,6): warning C4101: 'retval' :참조되지 않은 지역 변수입니다.
-  LINK : D:\Projects\2D_Game_Network\Server\x64\Debug\Server.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
-  Server.vcxproj -> D:\Projects\2D_Game_Network\Server\x64\Debug\Server.exe
+C:\Users\YTP\source\repos\2D_Game_Network\Server\Server.cpp(26,7): warning C4101: 'buf' :참조되지 않은 지역 변수입니다.
+C:\Users\YTP\source\repos\2D_Game_Network\Server\Server.cpp(21,6): warning C4101: 'retval' :참조되지 않은 지역 변수입니다.
+  Server.vcxproj -> C:\Users\YTP\source\repos\2D_Game_Network\Server\x64\Debug\Server.exe

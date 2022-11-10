@@ -1,4 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
+#include <Windows.h>
 #include "game.h"
 using namespace std;
 
@@ -523,9 +524,7 @@ void Game::drawMenu()
 			}
 		}
 		else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RETURN) {
-			//여기 connect함수 놔야함 
 			connect_server = true;
-			cout << "서버와 연결됨" << endl;
 		}
 		//Exit event
 		else if (event.type == SDL_QUIT) {
@@ -553,9 +552,8 @@ void Game::drawMenu()
 		drawText(200, 200, (char*)"Press enter to find match", color);
 
 		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RETURN) {
-			//서버에 findmatch 보내야함
-			curr_state = 1;
-			cout << "매치를 찾음" << endl;
+			find_match = true;
+			//curr_state = 1;
 		}
 	}
 }
