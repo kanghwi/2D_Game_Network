@@ -14,11 +14,8 @@
 #pragma comment(lib, "ws2_32") // ws2_32.lib ¸µÅ©
 using namespace std;
 
-#define WIDTH 1240
-#define HEIGHT 720
-
-//#define WIDTH 1200
-//#define HEIGHT 900
+#define WIDTH 1200
+#define HEIGHT 900
 
 typedef struct TWO_Floats {
 	float x;
